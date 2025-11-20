@@ -3,11 +3,12 @@
 
 [CmdletBinding()]
 param(
-    [string] $TestResultsPath,
+    [Parameter(Position=0)]
     [string[]] $Paths,
     [string[]] $Members,
     [ValidateSet('Live', 'Unit', 'All', 'Recorded')]
     [string] $TestType = 'Unit',
+    [string] $TestResultsPath,
     [switch] $CollectCoverage,
     [switch] $OpenReport,
     [switch] $TestNativeBuild,
