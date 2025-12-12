@@ -231,7 +231,7 @@ function Get-PathsToTest {
         )
 
         # If we're in a pull request, use the set of changed files to narrow down the set of paths to test.
-        $changedFiles = Get-ChangedFiles        
+        $changedFiles = Get-ChangedFiles -DiffFilterType ''        
         # Assuming $changedFiles = [
         #   tools/Azure.Mcp.Tools.Storage/src/someFile.cs    <- "Azure.Mcp.Tools.Storage"
         #   tools/Azure.Mcp.Tools.Monitoring/README.md       <- "Azure.Mcp.Tools.Monitoring"
