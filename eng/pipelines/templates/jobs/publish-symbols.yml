@@ -12,20 +12,24 @@ jobs:
   steps:
   - checkout: azure-sdk-build-tools
 
-  - download: current
-    displayName: Download build_info
-    artifact: build_info
-
-  - download: current
-    displayName: Download binaries_signed
-    artifact: binaries_signed
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      buildType: 'specific'
+      project: '$(System.TeamProjectId)'
+      pipeline: '$(Build.DefinitionId)'
+      buildVersionToDownload: 'specific'
+      runId: '5676627'
+      artifactName: 'binaries_signed'
+      targetPath: '$(Pipeline.Workspace)/binaries_signed'
 
   - pwsh: |
-      $toolPath = "$(Build.SourcesDirectory)/tools/symboltool/pdb2pdb.exe"
-      $parent = Split-Path -Path $toolPath -Parent
-      Get-ChildItem -Path $parent | Out-Host
-      Write-Host "TestPath $toolPath`: $(Test-Path -Path $toolPath)"
-    displayName: 'Pdb2Pdb tool directory listing'
+      Write-Host 'Contents of $(Pipeline.Workspace)/binaries_signed:'
+      Get-ChildItem -Path '$(Pipeline.Workspace)/binaries_signed' -Recurse
+    displayName: 'artifact contents'
+
+  # - download: current
+  #   displayName: Download binaries_signed
+  #   artifact: binaries_signed
 
   - template: /pipelines/steps/publish-symbols.yml@azure-sdk-build-tools
     parameters:
